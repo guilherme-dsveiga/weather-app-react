@@ -1,0 +1,65 @@
+.App{
+  min-height: 100vh;
+  background-color: #353535;
+  color: white;
+}
+
+#root{
+  background-color: #353535;
+}
+
+.upper-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.upper-container > h1{
+  cursor: pointer;
+}
+
+.form-container{
+  display: flex;
+  flex-direction: row;
+  padding-top: 1rem;
+  align-items: center;
+}
+
+.form-container label{
+  padding-right: 10px;
+}
+
+.form-container input{
+  border-radius: 10px;
+  border: solid 3px #000;
+  margin-right: 10px;
+}
+
+.form-container button{
+  border-radius: 10px;
+  background-color: #000;
+  color: white;
+  font-weight: 600;
+  border: solid 3px #000;
+  cursor: pointer;
+  transition: all ease 0.2s;
+}
+
+.form-container button:active{
+  background-color: rgb(41, 41, 41);
+}
+
+.cards-container{
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+footer{
+  margin: 20px 0;
+  text-align: center;
+}
