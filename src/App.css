@@ -51,7 +51,7 @@
 }
 
 .cards-container{
-  padding-top: 2rem;
+  padding-top: 1rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -62,4 +62,29 @@
 footer{
   margin: 20px 0;
   text-align: center;
+}
+
+.space-between{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media only screen and  (max-width: 550px){
+  footer{
+    padding-inline: 1rem;
+  }
+
+  .cards-container{
+    flex-wrap: wrap-reverse;
+  }
+  
+  .label-input-container{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-container{
+    align-items: flex-end;
+  }
 }
