@@ -3,6 +3,9 @@ import './card.css';
 
 export default ({ isRender, name, main, temp, min, max }) => {
         let emote, clima;
+        let bgColor = ''
+        let tempInt = parseInt(temp, '10')
+
         switch (main) {
                 case 'Thunderstorm':
                         clima = "Tempesade";
@@ -69,10 +72,26 @@ export default ({ isRender, name, main, temp, min, max }) => {
                         break;
         }
 
+        if (tempInt < 0) {
+                bgColor = '#256dcc';
+        } else if (tempInt >= 0 && tempInt < 10) {
+                bgColor = '#25ccab';
+        } else if (tempInt >= 10 && tempInt < 15) {
+                bgColor = '#25cc3b';
+        } else if (tempInt >= 15 && tempInt < 20) {
+                bgColor = '#87cf23';
+        } else if (tempInt >= 20 && tempInt < 25) {
+                bgColor = '#debd1b';
+        } else if (tempInt >= 25 && tempInt < 30) {
+                bgColor = '#e6a015';
+        } else if (tempInt >= 30) {
+                bgColor = '#ed3b24';
+        }
+
         if (isRender === true) {
                 if (name !== undefined) {
                         return (
-                                <div className="card-item">
+                                <div style={{ backgroundColor: bgColor }} className="card-item">
                                         <h2>{name}</h2>
                                         <div className="climate-container">
                                                 <span role="img" aria-label="emote">{emote}</span>
