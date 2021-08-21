@@ -50,6 +50,10 @@
   background-color: rgb(41, 41, 41);
 }
 
+.is-loading{
+  padding-left: 5rem;
+}
+
 .cards-container{
   padding-top: 1rem;
   display: flex;
@@ -75,8 +79,12 @@ footer{
     padding-inline: 1rem;
   }
 
+  .is-loading{
+    padding-left: 0;
+  }
+
   .cards-container{
-    flex-wrap: wrap-reverse;
+    flex-direction: column-reverse;
   }
   
   .label-input-container{

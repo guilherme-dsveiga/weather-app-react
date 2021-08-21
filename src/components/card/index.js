@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './card.css';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 export default ({ isRender, name, main, temp, min, max }) => {
         let emote, clima;
-        let bgColor = ''
-        let tempInt = parseInt(temp, '10')
+        let bgColor = '';
+        let tempInt = parseInt(temp, '10');
+
+        const [displayHandler, setDisplayHandler] = useState('flex');
+
+        const deleteCard = () => {
+                setDisplayHandler('none')
+        }
 
         switch (main) {
                 case 'Thunderstorm':
@@ -91,8 +98,13 @@ export default ({ isRender, name, main, temp, min, max }) => {
         if (isRender === true) {
                 if (name !== undefined) {
                         return (
-                                <div style={{ backgroundColor: bgColor }} className="card-item">
-                                        <h2>{name}</h2>
+                                <div style={{ backgroundColor: bgColor, display: displayHandler }} className="card-item">
+                                        <div className="top-row">
+                                                <div className="delete" onClick={deleteCard}>
+                                                        <DeleteIcon></DeleteIcon>
+                                                </div>
+                                                <h2>{name}</h2>
+                                        </div>
                                         <div className="climate-container">
                                                 <span role="img" aria-label="emote">{emote}</span>
                                                 <p>{clima}</p>
@@ -107,14 +119,13 @@ export default ({ isRender, name, main, temp, min, max }) => {
                 } else {
                         return (
                                 <div>
-                                        <h3>Cidade não encontrada</h3>
+                                        Cidade não encontrada
                                 </div>
                         )
                 }
         } else {
                 return (
-                        <div>
-                        </div>
+                        <></>
                 )
         }
 
