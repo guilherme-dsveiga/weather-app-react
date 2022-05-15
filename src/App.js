@@ -1,6 +1,6 @@
 import "./App.css";
 import Weather from "./Weather";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Card from "./components/card";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -13,7 +13,7 @@ function App() {
   const [loadingHandler, setLoadingHandler] = useState("none");
   const [cityFoundHandler, setCityFoundHandler] = useState("none");
 
-  let cityInput = React.createRef();
+  let cityInput = useRef();
 
   const callFetch = async () => {
     const loadWeather = async (param) => {
