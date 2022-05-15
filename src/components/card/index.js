@@ -2,16 +2,10 @@ import React, { useState } from "react";
 import "./card.css";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-const Card = ({ isRender, name, main, temp, min, max }) => {
+const Card = ({ name, main, temp, min, max, remove }) => {
   let emote, clima;
   let bgColor = "";
-  let tempInt = parseInt(temp, "10");
-
-  const [displayHandler, setDisplayHandler] = useState("flex");
-
-  const deleteCard = () => {
-    setDisplayHandler("none");
-  };
+  let tempInt = Number(temp);
 
   switch (main) {
     case "Thunderstorm":
@@ -94,37 +88,33 @@ const Card = ({ isRender, name, main, temp, min, max }) => {
     bgColor = "#ed3b24";
   }
 
-  if (isRender === true) {
-    if (name !== undefined) {
-      return (
-        <div
-          style={{ backgroundColor: bgColor, display: displayHandler }}
-          className="card-item"
-        >
-          <div className="top-row">
-            <div className="delete" onClick={deleteCard}>
-              <DeleteIcon></DeleteIcon>
-            </div>
-            <h2>{name}</h2>
+  if (name !== undefined) {
+    return (
+      <div
+        style={{ backgroundColor: bgColor, display: "flex" }}
+        className="card-item"
+      >
+        <div className="top-row">
+          <div className="delete" onClick={() => remove(name)}>
+            <DeleteIcon></DeleteIcon>
           </div>
-          <div className="climate-container">
-            <span role="img" aria-label="emote">
-              {emote}
-            </span>
-            <p>{clima}</p>
-          </div>
-          <h1>{Math.floor(temp)}ºC</h1>
-          <div className="min-max">
-            <p>Min: {Math.floor(min)}ºC</p>
-            <p>Max: {Math.floor(max)}ºC</p>
-          </div>
+          <h2>{name}</h2>
         </div>
-      );
-    } else {
-      return <div>Cidade não encontrada</div>;
-    }
+        <div className="climate-container">
+          <span role="img" aria-label="emote">
+            {emote}
+          </span>
+          <p>{clima}</p>
+        </div>
+        <h1>{Math.floor(temp)}ºC</h1>
+        <div className="min-max">
+          <p>Min: {Math.floor(min)}ºC</p>
+          <p>Max: {Math.floor(max)}ºC</p>
+        </div>
+      </div>
+    );
   } else {
-    return <></>;
+    return <div>Cidade não encontrada</div>;
   }
 };
 

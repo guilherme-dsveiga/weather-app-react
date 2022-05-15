@@ -1,45 +1,33 @@
 import "./App.css";
-import Weather from "./Weather";
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./components/card";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-let cityListHandler = [];
+import { getWeather } from "./api/weather";
 
 function App() {
+  const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState([]);
-  const [renderState, setRenderState] = useState(false);
-  const [deleteLast, setDeleteLast] = useState(false);
-  const [loadingHandler, setLoadingHandler] = useState("none");
-  const [cityFoundHandler, setCityFoundHandler] = useState("none");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFound, setIsFound] = useState(false);
 
-  let cityInput = useRef();
-
-  const callFetch = async () => {
-    const loadWeather = async (param) => {
-      let data = await Weather.getWeather(param);
-
-      if (deleteLast === true) {
-        data.splice(index, 1);
-        cityListHandler.splice(index, 1);
-        setDeleteLast(false);
+  const getCityWheaterData = async () => {
+    setIsLoading(true);
+    const cityWeatherData = await getWeather(city);
+    if (cityWeatherData.code) {
+      setIsFound(false);
+    } else {
+      console.log(weatherData[weatherData.length - 1]?.cod);
+      if (weatherData[weatherData.length - 1]?.cod === "404") {
+        console.log(weatherData);
+        let temp = [...weatherData];
+        temp.pop();
+        setWeatherData(() => [...temp, cityWeatherData]);
+      } else {
+        setWeatherData((prev) => [...prev, cityWeatherData]);
       }
-
-      setWeatherData(data);
-      setRenderState(true);
-      setLoadingHandler("none");
-      if ((data[index + 1] ? data[index + 1].name : "") === undefined) {
-        setDeleteLast(true);
-      }
-    };
-
-    setLoadingHandler("block");
-
-    let city = cityInput.current.value;
-    cityListHandler.push(city);
-    let index = cityListHandler.length - 2;
-
-    loadWeather(cityListHandler);
+      setIsFound(true);
+    }
+    setIsLoading(false);
   };
 
   const refreshPage = () => {
@@ -48,8 +36,16 @@ function App() {
 
   const handleKeypress = (e) => {
     if (e.key === "Enter") {
-      callFetch();
+      getCityWheaterData();
+      setCity("");
     }
+  };
+
+  const removeCityWeatherData = (city) => {
+    let weatherDataCopy = weatherData.filter((w) => {
+      return w.name !== city;
+    });
+    setWeatherData(weatherDataCopy);
   };
 
   return (
@@ -62,34 +58,30 @@ function App() {
             <input
               id="input"
               onKeyPress={handleKeypress}
-              ref={cityInput}
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
               type="text"
               name="city"
             ></input>
           </div>
-          <button type="submit" onClick={callFetch}>
+          <button type="submit" onClick={getCityWheaterData}>
             +
           </button>
-          <div className="cityFound" style={{ display: cityFoundHandler }}>
-            Cidade não encontrada
-          </div>
         </div>
         <div className="space-between">
           <div className="cards-container">
             {weatherData.map((item, key) => (
               <Card
                 key={key}
-                isRender={renderState}
                 name={item.name}
                 main={item.weather ? item.weather[0].main : ""}
                 temp={item.main ? item.main.temp : ""}
                 min={item.main ? item.main.temp_min : ""}
                 max={item.main ? item.main.temp_max : ""}
+                remove={removeCityWeatherData}
               />
             ))}
-            <div className="is-loading" style={{ display: loadingHandler }}>
-              <CircularProgress />
-            </div>
+            {isLoading && <CircularProgress />}
           </div>
           <footer>
             Feito com{" "}
